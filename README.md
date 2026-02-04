@@ -57,7 +57,9 @@ The engine strictly follows the energy distribution laws defined by Chowning:
 
 ## Usage in Max for Live / Ableton
 
-1.  Route **Outputs 3 and 4** to an external Return Track (**POST FADER**) containing a **Stereo Reverb** (set to 100% Wet and 0 ms predelay if you want to respect Chowning's mathematical equation).
+1.  To install, place the files inside a folder, then copy it into your Ableton User Library path. Validated on Windows 11 / Ableton Live 12.3.
+
+2.  Route **Outputs 3 and 4** to an external Return Track (**POST FADER**) containing a **Stereo Reverb** (set to 100% Wet and 0 ms predelay if you want to respect Chowning's mathematical equation).
 
 ---
 
@@ -66,5 +68,6 @@ Chowning, J. M. (1977). *"The Simulation of Moving Sound Sources"*. Journal of t
 
 Cycling '74 - Audio Sender (Max4Live) ["BrowseRouting.maxpat", "M4L.MixerObserver.js", "RoutingObjects.maxpat", "SendsRouting.maxpat.".
 
+## To the users
 Contributions are welcome, feel free to suggest improvements or optimizations to the algorithm in gen~.
 
