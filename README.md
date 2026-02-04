@@ -63,5 +63,6 @@ The engine strictly follows the energy distribution laws defined by Chowning:
 
 ## Reference
 Chowning, J. M. (1977). *"The Simulation of Moving Sound Sources"*. Journal of the Audio Engineering Society.
-Cycling '74 - Audio sender (Max4Live).
+
+Cycling '74 - Audio sender (Max4Live) ["BrowseRouting.maxpat", "M4L.MixerObserver.js", "RoutingObjects.maxpat", "SendsRouting.maxpat.".
 
