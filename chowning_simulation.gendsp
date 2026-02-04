@@ -1,0 +1,182 @@
+{
+	"patcher" : 	{
+		"fileversion" : 1,
+		"appversion" : 		{
+			"major" : 9,
+			"minor" : 0,
+			"revision" : 8,
+			"architecture" : "x64",
+			"modernui" : 1
+		}
+,
+		"classnamespace" : "dsp.gen",
+		"rect" : [ 34.0, 77.0, 1468.0, 705.0 ],
+		"gridsize" : [ 15.0, 15.0 ],
+		"boxes" : [ 			{
+				"box" : 				{
+					"id" : "obj-9",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 555.0, 595.0, 35.0, 22.0 ],
+					"text" : "out 4"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-8",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 386.666666666666686, 595.0, 35.0, 22.0 ],
+					"text" : "out 3"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-5",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 218.333333333333343, 595.0, 35.0, 22.0 ],
+					"text" : "out 2"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-3",
+					"maxclass" : "newobj",
+					"numinlets" : 0,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 555.0, 14.0, 28.0, 22.0 ],
+					"text" : "in 4"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-7",
+					"maxclass" : "newobj",
+					"numinlets" : 0,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 386.666666666666686, 14.0, 28.0, 22.0 ],
+					"text" : "in 3"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"code" : "// --- PARAMETRI ---\r\nParam speed_of_sound(343.4);\r\nParam room_size(1);\r\nParam dist_min(1.0);\r\nParam dist_max(100.0);\r\nParam smooth_time(2000); \r\n\r\n// --- BUFFER AUDIO (SAFE MODE) ---\r\n// Impostiamo 192.000 campioni (circa 4 secondi a 48k)\r\n// Così sei coperto anche se lavori a 96kHz o aumenti la distanza\r\nDelay memL(192000);\r\nDelay memR(192000);\r\n\r\n// --- 1. INPUT E SMOOTHING ---\r\n// Input normalizzati 0.0 - 1.0 (da Max for Live dial)\r\nctrl_dist = slide(clip(in3, 0, 1), smooth_time, smooth_time);\r\nctrl_pan = slide(clip(in4, 0, 1), smooth_time, smooth_time);\r\n\r\n// --- 2. LOGICA MATEMATICA ---\r\n// Distanza Logaritmica\r\ndist_log = dist_min * pow((dist_max / dist_min), ctrl_dist);\r\n\r\n// Panning Constant Power (PI * 0.5 = 90 gradi)\r\nrads = ctrl_pan * (PI * 0.5);\r\nbal_L = cos(rads);\r\nbal_R = sin(rads);\r\n\r\n// --- 3. MOTORE AUDIO ---\r\n// Samplerate si adatta automaticamente a quello di Ableton (44.1k, 48k, 96k...)\r\ndelay_time = (dist_log / speed_of_sound) * samplerate;\r\n\r\n// Lettura cubica (Alta qualità)\r\nsigL_shifted = memL.read(delay_time, interp=\"cubic\");\r\nmemL.write(in1);\r\n\r\nsigR_shifted = memR.read(delay_time, interp=\"cubic\");\r\nmemR.write(in2);\r\n\r\n// --- 4. GUADAGNI FISICI ---\r\ng_direct = 1.0 / dist_log;\r\n\r\n// Riverbero Global (Diffuso) e Local (Direzionale)\r\ng_rev_global = (1.0 / sqrt(dist_log)) * (1.0 / dist_log) * room_size;\r\ng_rev_local = (1.0 / sqrt(dist_log)) * (1.0 - (1.0 / dist_log)) * room_size;\r\n\r\n// --- 5. MIXING ---\r\n// Dry Signal\r\ndry_L = sigL_shifted * g_direct * bal_L;\r\ndry_R = sigR_shifted * g_direct * bal_R;\r\n\r\n// Wet Send (Aux)\r\nmix_mono = (sigL_shifted + sigR_shifted) * (1.0 / sqrt(2.0));\r\n\r\nwet_send_L = (mix_mono * g_rev_global) + (sigL_shifted * g_rev_local * bal_L);\r\nwet_send_R = (mix_mono * g_rev_global) + (sigR_shifted * g_rev_local * bal_R);\r\n\r\n// --- 6. OUTPUT ---\r\nout1 = dry_L;      // Audio To -> Master\r\nout2 = dry_R;      // Audio To -> Master\r\nout3 = wet_send_L; // Audio To -> Return Track (Reverb)\r\nout4 = wet_send_R; // Audio To -> Return Track (Reverb)",
+					"fontface" : 0,
+					"fontname" : "<Monospaced>",
+					"fontsize" : 12.0,
+					"id" : "obj-6",
+					"maxclass" : "codebox",
+					"numinlets" : 4,
+					"numoutlets" : 4,
+					"outlettype" : [ "", "", "", "" ],
+					"patching_rect" : [ 50.0, 97.0, 524.0, 446.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-1",
+					"maxclass" : "newobj",
+					"numinlets" : 0,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 50.0, 14.0, 28.0, 22.0 ],
+					"text" : "in 1"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-2",
+					"maxclass" : "newobj",
+					"numinlets" : 0,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 218.333333333333343, 14.0, 28.0, 22.0 ],
+					"text" : "in 2"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-4",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 50.0, 595.0, 35.0, 22.0 ],
+					"text" : "out 1"
+				}
+
+			}
+ ],
+		"lines" : [ 			{
+				"patchline" : 				{
+					"destination" : [ "obj-6", 0 ],
+					"source" : [ "obj-1", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-6", 1 ],
+					"source" : [ "obj-2", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-6", 3 ],
+					"source" : [ "obj-3", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-4", 0 ],
+					"source" : [ "obj-6", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-5", 0 ],
+					"source" : [ "obj-6", 1 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-8", 0 ],
+					"source" : [ "obj-6", 2 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-9", 0 ],
+					"source" : [ "obj-6", 3 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-6", 2 ],
+					"source" : [ "obj-7", 0 ]
+				}
+
+			}
+ ]
+	}
+
+}
