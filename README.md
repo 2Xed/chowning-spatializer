@@ -47,7 +47,7 @@ The engine strictly follows the energy distribution laws defined by Chowning:
 
 ## Parameters (Defaults)
 
-* `dist_min (1.0)`: Minimum distance unit. *Note: Must be $\ge 1.0$ to prevent phase inversion in local reverb formulas.*
+* `dist_min (1.0)`: Minimum distance unit. *Note: Must be greater than or equal to 1.0 to prevent phase inversion in local reverb formulas.*
 * `dist_max (100.0)`: Maximum distance limit for the simulation.
 * `speed_of_sound (343.4)`: Speed of propagation in m/s (Standard air at 20°C).
 * `room_size (1.0)`: Global gain multiplier for the environmental energy.
