@@ -11,7 +11,7 @@ This implementation provides a physically accurate 2D spatialization model, opti
 
 ## Key Features
 
-* **Logarithmic Distance Mapping:** Distance control follows a power function to align with human psychoacoustic perception. A value of 0.5 on the distance fader represents the geometric mean (e.g., 10m in a 1m–100m range), providing a natural "musical" response.
+* **Logarithmic Distance Mapping:** Distance control follows a power function to align with human psychoacoustic perception. A value of 0.5 on the distance fader represents the geometric mean (e.g., 10m in a 1m–100m range), providing a natural sound response.
 * **Constant Power Panning:** Utilizes a trigonometric Sine/Cosine law to maintain equal power across the stereo field, eliminating the -3dB volume drop when the source is centered.
 * **Doppler "Shift":** Simulates pitch-shifting based on radial velocity using delay lines with Cubic Spline Interpolation to prevent digital artifacts and aliasing.
 * **Discrete Dry/Wet Architecture:** Features separate stereo outputs for the Direct Signal (Dry) and the Reverberation Send (Wet), allowing for external high-quality reverb processing.
