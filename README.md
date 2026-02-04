@@ -35,8 +35,8 @@ The engine strictly follows the energy distribution laws defined by Chowning:
 | Input | Description | Range |
 | :--- | :--- | :--- |
 | **In 1-2** | Stereo Audio Input | Audio Signal |
-| **In 3** | Distance Control | 0.0 — 1.0 (Normalized) |
-| **In 4** | Azimuth / Pan | -50 — 50 (Mapped to 0.0 — 1.0) |
+| **In 3** | Distance Control | 1.0 — 100.0 [0.0 — 1.0 (Normalized)] |
+| **In 4** | Azimuth / Pan | -50.0 — 50.0 [0.0 — 1.0(Normalized)] |
 
 | Output | Description | Destination |
 | :--- | :--- | :--- |
